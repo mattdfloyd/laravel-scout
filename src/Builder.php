@@ -150,6 +150,16 @@ class Builder
     }
 
     /**
+     * Get the results of the search.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function results()
+    {
+        return $this->engine()->results($this);
+    }
+
+    /**
      * Paginate the given query into a simple paginator.
      *
      * @param  int  $perPage
