@@ -136,8 +136,7 @@ class AlgoliaEngine extends Engine
             return Collection::make();
         }
 
-        $keys = collect($results['hits'])
-                        ->pluck('objectID')->values()->all();
+        $keys = $this->getPrimaryKeys($results);
 
         $models = $model->whereIn(
             $model->getKeyName(), $keys
@@ -161,5 +160,13 @@ class AlgoliaEngine extends Engine
     public function getTotalCount($results)
     {
         return $results['nbHits'];
+    }
+
+    public function getPrimaryKeys($results)
+    {
+        return Collection::make($results['hits'])
+            ->pluck('objectID')
+            ->values()
+            ->all();
     }
 }

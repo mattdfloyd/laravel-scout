@@ -75,4 +75,10 @@ class NullEngine extends Engine
     {
         return count($results);
     }
+
+    public function getPrimaryKeys($results)
+    {
+        return [];
+    }
+
 }

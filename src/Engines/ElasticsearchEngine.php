@@ -230,10 +230,7 @@ class ElasticsearchEngine extends Engine
             return Collection::make();
         }
 
-        $keys = collect($results['hits']['hits'])
-                    ->pluck('_id')
-                    ->values()
-                    ->all();
+        $keys = $this->getPrimaryKeys($results);
 
         $models = $model->whereIn(
             $model->getKeyName(), $keys
@@ -253,5 +250,13 @@ class ElasticsearchEngine extends Engine
     public function getTotalCount($results)
     {
         return $results['hits']['total'];
+    }
+
+    public function getPrimaryKeys($results)
+    {
+        return Collection::make($results['hits']['hits'])
+            ->pluck('_id')
+            ->values()
+            ->all();
     }
 }
