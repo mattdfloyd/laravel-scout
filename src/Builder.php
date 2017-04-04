@@ -92,9 +92,20 @@ class Builder
      * @param  mixed  $value
      * @return $this
      */
-    public function where($field, $value)
+    public function where($field, $value = null)
     {
+        if ($field instanceof Closure) {
+            return $this->whereNested($field);
+        }
+
         $this->wheres[$field] = $value;
+
+        return $this;
+    }
+
+    public function whereNested(Closure $callback)
+    {
+        call_user_func($callback, $this);
 
         return $this;
     }
